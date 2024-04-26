@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1027635542618",
+    "project_id": "buzz-ring",
+    "storage_bucket": "buzz-ring.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027635542618:android:17fc166a27e63f2ec97663",
+        "android_client_info": {
+          "package_name": "com.buzzring"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcnoDUR6AQ906fBXb1yAPt9Cj3_A_lPhE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
