@@ -1,0 +1,26 @@
+const GlobalString = {
+  APP_NAME: 'BuzzRing',
+  SCAN_QR_CODE: 'Scan QR Code',
+  NO_CAMERA: 'Camera not found !!',
+  ENABLE_CAMERA_PERMISSION:
+    'BuzzRing app need camera permission for scanning QR Code',
+  ENABLE_CAMERA_PERMISSION_SETTING:
+    'Please enable camera permission from settings.',
+  CANCEL: 'Cancel',
+  GO_TO_SETTINGS: 'Go to settings',
+  WELCOME_BACK: 'Welcome back!',
+  PLEASE_LOGIN_TO_CONTINUE_TO_THE_APP: 'Please login to continue to the app',
+  EMAIL_ADDRESS: 'Email address',
+  PASSWORD: 'Password',
+  COMMENT: 'Comment',
+  FORGOT_PASSWORD: 'Forgot Password?',
+  LOGIN: 'LOGIN',
+  SIGNUP: 'SignUp',
+  BACK_TO_LOGIN: 'Back to login',
+  RESET_PASSWORD: 'Reset password',
+  SCAN_YOUR_PROFILE: 'Scan your profile.',
+  DELETE: 'Delete',
+  DELETE_USER: 'Delete User',
+  DELETE_USER_DESC: 'Are you sure you want to delete?',
+};
+export default GlobalString;
