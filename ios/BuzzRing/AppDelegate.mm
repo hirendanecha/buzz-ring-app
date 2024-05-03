@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
-#import <Firebase.h>
+// #import <Firebase.h>
 
 @implementation AppDelegate
 
@@ -9,8 +9,8 @@
 {
 
   // Initialize Firebase
-  if([FIRApp defaultApp] == nil)
-      [FIRApp configure];
+  // if([FIRApp defaultApp] == nil)
+  //     [FIRApp configure];
   self.moduleName = @"BuzzRing";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.

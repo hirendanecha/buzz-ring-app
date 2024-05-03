@@ -15,7 +15,6 @@
 		A33D1E894B020F4318CFE20E /* libPods-BuzzRing-BuzzRingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAF8213BEF6184A3F41C4C5D /* libPods-BuzzRing-BuzzRingTests.a */; };
 		CE04824887FA61E9CEAB2A53 /* libPods-BuzzRing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D44F1EBF58117ED67F0DEE75 /* libPods-BuzzRing.a */; };
 		CE310B492BD78041004903B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE310B482BD78041004903B0 /* GoogleService-Info.plist */; };
-		CE310B4B2BD7809A004903B0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE310B4A2BD7809A004903B0 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +43,6 @@
 		C1EE7F166FB29033DB081A03 /* Pods-BuzzRing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BuzzRing.release.xcconfig"; path = "Target Support Files/Pods-BuzzRing/Pods-BuzzRing.release.xcconfig"; sourceTree = "<group>"; };
 		CAF8213BEF6184A3F41C4C5D /* libPods-BuzzRing-BuzzRingTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BuzzRing-BuzzRingTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE310B482BD78041004903B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CE310B4A2BD7809A004903B0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../BuzzRing Keystore/live/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D44F1EBF58117ED67F0DEE75 /* libPods-BuzzRing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BuzzRing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC79CDD09AFBCA5321467FEA /* Pods-BuzzRing-BuzzRingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BuzzRing-BuzzRingTests.debug.xcconfig"; path = "Target Support Files/Pods-BuzzRing-BuzzRingTests/Pods-BuzzRing-BuzzRingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -121,7 +119,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				CE310B4A2BD7809A004903B0 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* BuzzRing */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* BuzzRingTests */,
@@ -212,7 +209,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1410;
 					};
 				};
 			};
@@ -248,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				CE310B4B2BD7809A004903B0 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				CE310B492BD78041004903B0 /* GoogleService-Info.plist in Resources */,
 			);
@@ -488,6 +484,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = BuzzRing;
+				SWIFT_OBJC_BRIDGING_HEADER = "BuzzRing-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -514,6 +511,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = BuzzRing;
+				SWIFT_OBJC_BRIDGING_HEADER = "BuzzRing-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

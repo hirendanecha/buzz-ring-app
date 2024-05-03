@@ -1,11 +1,8 @@
-import axios from 'axios';
-import {env} from '../config';
-import {store} from '../redux/store';
+import axios from "axios";
+import { env } from "../config";
+import { store } from "../redux/store";
 
-// const baseURL = 'https://cindel-api.opash.in';
 const baseURL = env.API_URL;
-// const baseURL = '';
-// const baseURL = 'http://192.168.1.20:3000';
 
 axios.defaults.baseURL = baseURL;
 
@@ -20,7 +17,7 @@ export const axiosInstance = axios.interceptors.request.use(function (request) {
 
     return request;
   } catch (err) {
-    console.log('error in interceptor', err);
+    console.log("error in interceptor", err);
   }
 });
 
@@ -33,11 +30,11 @@ axios.interceptors.response.use(
   function (error) {
     // Any status codes that fall outside the range of 2xx cause this function to trigger
     // Do something with response error
-    const {response} = error;
+    const { response } = error;
 
     if (!response) {
       // Network error occurred
-      console.error('Network error:', error);
+      console.error("Network error:", error);
       // You may want to dispatch an action or handle the error in some way
       return Promise.reject(error);
     }
@@ -51,7 +48,7 @@ axios.interceptors.response.use(
 
     // Other error handling logic goes here
     return Promise.reject(error);
-  },
+  }
 );
 
 export default axios;
