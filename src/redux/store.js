@@ -35,7 +35,6 @@ const authTransform = createTransform(
 const authPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  transforms: [authTransform],
 };
 
 const authPersistedReducer = persistReducer(persistConfig, authSlice);

@@ -43,7 +43,7 @@ import {useColorScheme} from 'react-native';
 const HomeScreen = ({navigation}) => {
   const styled = useStyled();
   const styles = style(styled.config.tokens);
-  const scanner = useSelector(state => state.scanner.data) || [];
+  const scanner = useSelector(state => state?.scanner?.data) || [];
   const {loading} = useSelector(state => state.scanner);
   const {hasPermission, requestPermission} = useCameraPermission();
   const {showToast} = useToastMessage();
@@ -299,7 +299,7 @@ const HomeScreen = ({navigation}) => {
                 />
               </TouchableOpacity>
               <Text style={styles.noDataText}>
-                {GlobalString.SCAN_YOUR_PROFILE}
+                {GlobalString.SCAN_YOUR_TEXT}
               </Text>
             </View>
           )}
@@ -327,6 +327,16 @@ const HomeScreen = ({navigation}) => {
             </View>
           )}
         />
+        {scanner.length > 0 && (
+          <View style={styles.successContainer}>
+            <Text style={styles.successText}>
+              {GlobalString.YOUR_BUZZRING_APP_IS_NOW_ACTIVE}
+            </Text>
+            <Text style={styles.successText}>
+              {GlobalString.YOUR_PHONE_WILL_RING_WHEN_SOMEONE_CALLS_YOU}
+            </Text>
+          </View>
+        )}
       </View>
     </>
   );

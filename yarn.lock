@@ -4862,7 +4862,9 @@ __metadata:
     react-native-safe-area-context: "npm:^4.9.0"
     react-native-screens: "npm:^3.30.1"
     react-native-svg: "npm:13.4.0"
+    react-native-uuid: "npm:^2.0.2"
     react-native-vision-camera: "npm:^3.9.2"
+    react-native-voip-call: "npm:^1.1.1"
     react-redux: "npm:^9.1.0"
     react-test-renderer: "npm:18.2.0"
     redux-persist: "npm:^6.0.0"
@@ -10551,6 +10553,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-uuid@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "react-native-uuid@npm:2.0.2"
+  checksum: 10c0/326678b3e1d076e7cda6db41ab3ee073695b31217a0e849f87bae3616a7f79e876fd8b5d735bee030275bddd44312eea9b6bfc5217997b2001d68a5d4aceec96
+  languageName: node
+  linkType: hard
+
 "react-native-vision-camera@npm:^3.9.2":
   version: 3.9.2
   resolution: "react-native-vision-camera@npm:3.9.2"
@@ -10562,6 +10571,15 @@ __metadata:
     react-native-worklets-core:
       optional: true
   checksum: 10c0/baf17915b9ab974ad1495df7816577b692f7eb621ab5d7cecd3976353ea4f16517fa197f8084842d904970b48b143ab27f9e77e6de5dddbc6e47c41e70193a64
+  languageName: node
+  linkType: hard
+
+"react-native-voip-call@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "react-native-voip-call@npm:1.1.1"
+  peerDependencies:
+    react-native: ^0.60.0
+  checksum: 10c0/6ddc91a61af320211b3a8e13230a573283b160370221d6b627cb882dcba30f365e3925ece4c45c42d0baadb1a32ecfed21b49d36c04223c6a4b00429aea0dcef
   languageName: node
   linkType: hard
 

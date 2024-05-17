@@ -41,15 +41,9 @@ const ThemeApp = () => {
   });
 
   const linking = {
-    prefixes: ['videocalling://'],
-    config: {
-      screens: {
-        homeScreen: {
-          path: `homescreen/:token/:meetingId`,
-        },
-      },
-    },
+    prefixes: ['buzzring://'],
   };
+
   return (
     // <NativeBaseProvider theme={theme}>
     // <SafeAreaProvider

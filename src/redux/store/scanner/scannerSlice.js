@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {deleteUserThunk, validateTokenThunk} from './scannerAction';
 
-const initialState = {
+const initialState1 = {
   loading: false,
   error: null,
   success: false,
@@ -12,12 +12,12 @@ const initialState = {
 
 const scannerSlice = createSlice({
   name: 'scanner',
-  initialState,
+  initialState: initialState1,
   reducers: {
     addScannerData: (state, action) => {
       console.log(action.payload);
       console.log(state);
-      state.data.push(action.payload);
+      state.data = [...state.data, action.payload];
     },
     removeUser: (state, action) => {
       state.data = state.data.filter(item => item.Id !== action.payload);

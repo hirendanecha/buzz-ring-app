@@ -18,9 +18,13 @@ const GlobalString = {
   SIGNUP: 'SignUp',
   BACK_TO_LOGIN: 'Back to login',
   RESET_PASSWORD: 'Reset password',
-  SCAN_YOUR_PROFILE: 'Scan your profile.',
+  SCAN_YOUR_TEXT:
+    'Scan the QR Code on the messaging app you are using. Click on the 3 dots and select BuzzRing App.',
   DELETE: 'Delete',
   DELETE_USER: 'Delete User',
   DELETE_USER_DESC: 'Are you sure you want to delete?',
+  YOUR_BUZZRING_APP_IS_NOW_ACTIVE: 'Your BuzzRing app is now active!',
+  YOUR_PHONE_WILL_RING_WHEN_SOMEONE_CALLS_YOU:
+    'Your phone will ring when someone calls you.',
 };
 export default GlobalString;

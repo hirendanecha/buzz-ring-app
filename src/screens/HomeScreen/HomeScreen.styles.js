@@ -62,9 +62,11 @@ const style = theme => {
       justifyContent: 'center',
     },
     noDataText: {
-      ...textStyles.bodyLarge,
+      ...textStyles.bodySmall,
       color: theme.colors.textColor,
       marginTop: verticalScale(10),
+      textAlign: 'center',
+      width: '90%',
     },
     scannedImage: {
       width: 50,
@@ -82,6 +84,17 @@ const style = theme => {
       position: 'absolute',
       top: 8,
       right: 8,
+    },
+    successText: {
+      ...textStyles.bodySmall,
+      color: theme.colors.textColor,
+      textAlign: 'center',
+      marginTop: verticalScale(4),
+    },
+    successContainer: {
+      flex: 1,
+      width: '90%',
+      alignSelf: 'center',
     },
   });
 };

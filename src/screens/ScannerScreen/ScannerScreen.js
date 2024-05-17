@@ -1,80 +1,64 @@
-import {Alert, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {useStyled} from '@gluestack-style/react';
-import style from './ScannerScreen.styles';
-import {useDispatch, useSelector} from 'react-redux';
+import {Text, View, StyleSheet, StatusBar} from 'react-native';
 import {
   Camera,
   useCameraDevice,
   useCameraPermission,
   useCodeScanner,
 } from 'react-native-vision-camera';
-import {
-  ArrowLeftIcon,
-  Button,
-  ButtonText,
-  Heading,
-  Icon,
-  Modal,
-  ModalBackdrop,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from '@gluestack-ui/themed';
-import {scale} from '../../constants/matrics';
-import {CloseIcon} from '@gluestack-ui/themed';
+import DeviceInfo from 'react-native-device-info';
+import {useDispatch, useSelector} from 'react-redux';
 import {addScannerData} from '../../redux/store/scanner/scannerSlice';
+import {validateTokenThunk} from '../../redux/store/scanner/scannerAction';
 import {useToastMessage} from '../../hooks/useToastMessage';
 import GlobalString from '../../constants/string';
+import style from './ScannerScreen.styles';
 import AppLoader from '../../components/AppLoader';
-import {validateTokenThunk} from '../../redux/store/scanner/scannerAction';
-import {CameraScreen} from 'react-native-camera-kit';
-import DeviceInfo from 'react-native-device-info';
+import {ArrowLeftIcon, Icon, useStyled} from '@gluestack-ui/themed';
 
 export default function ScannerScreen({navigation}) {
-  const styled = useStyled();
-  const styles = style(styled.config.tokens);
-  const scanner = useSelector(state => state.scanner.data);
-  const {hasPermission, requestPermission} = useCameraPermission();
+  const scanner = useSelector(state => state?.scanner?.data) || [];
+  const {hasPermission} = useCameraPermission();
   const device = useCameraDevice('back');
-  const camera = useRef(null);
   const [isActive, setIsActive] = useState(true);
   const [scanData, setScanData] = useState(null);
-  const [showScanData, setShowScanData] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const {showToast} = useToastMessage();
+  const styled = useStyled();
+  const styles = style(styled.config.tokens);
+  const [isLoading, setIsLoading] = useState(false);
+  const camera = useRef(null);
+
+  const resetData = () => {
+    setScanData(null);
+    setIsActive(true);
+  };
+
+  const gotoHome = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  };
 
   const handleValidateToken = async data => {
     try {
       setIsLoading(true);
-      // Extract the domain
+      // Extract the domain and token
       const domainRegex =
         /(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/g;
       const domainMatch = data?.match(domainRegex);
       const domain = domainMatch ? domainMatch[0] : null;
-
-      // Remove ".dev" from the domain
-      const cleanedDomain = domain
-        ? domain.replace('https://', '').replace('dev.', '')
-        : null;
-
       const token = data?.split('?token=')[1];
 
-      console.log(cleanedDomain);
-      console.log(token);
-
-      if (!cleanedDomain || !token) {
+      if (!domain || !token) {
         showToast({message: 'Invalid QR code'});
-
         setIsLoading(false);
         resetData();
-        navigation.pop();
+        gotoHome();
         return;
       }
 
+      const cleanedDomain = domain.replace('https://', '').replace('dev.', '');
       const payload = {
         domain: cleanedDomain,
         token,
@@ -83,156 +67,50 @@ export default function ScannerScreen({navigation}) {
 
       const response = await dispatch(validateTokenThunk(payload)).unwrap();
 
-      console.log('response.payload', response);
-
+      setIsLoading(false);
       if (response.success) {
-        const isExist = scanner?.find(item => item.Id === response.data.Id);
+        const isExist = scanner.find(item => item.Id === response.data.Id);
         if (!isExist) {
-          dispatch(addScannerData(response.data));
-          navigation.pop();
+          await dispatch(addScannerData(response.data));
+          gotoHome();
         } else {
-          showToast({message: 'User is already added !!'});
           resetData();
-          navigation.pop();
+          gotoHome();
+          showToast({message: 'User is already added !!'});
         }
       } else {
-        showToast({message: response.message});
         resetData();
-        navigation.pop();
+        gotoHome();
+        showToast({message: response.message});
       }
-      setIsLoading(false);
     } catch (error) {
+      showToast({message: error?.message || error.toString()});
       console.log(error);
-      if (error?.message) {
-        showToast({message: error?.message});
-      }
-      showToast({message: error});
       setIsLoading(false);
       resetData();
-      navigation.pop();
+      gotoHome();
     }
   };
+
+  useEffect(() => {
+    if (!isActive && scanData && !isLoading) {
+      handleValidateToken(scanData);
+    } else {
+      setIsActive(true);
+    }
+  }, [isActive, scanData]);
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr'],
     onCodeScanned: codes => {
-      try {
-        setIsActive(false);
-        console.log(
-          `Scanned ${JSON.stringify(codes[0].value)} codes!, ${isActive}`,
-        );
-        if (!isActive && codes?.[0]?.value !== scanData && codes?.[0]?.value) {
-          if (codes?.[0]?.value) {
-            setScanData(codes?.[0]?.value);
-            // addScanData(codes?.[0]?.value);
-            handleValidateToken(codes?.[0]?.value);
-          } else {
-            // showToast({
-            //   message: 'No data found !!',
-            // });
-            setIsActive(true);
-            console.log(codes?.[0]?.value);
-          }
-        } else {
-        }
-      } catch (error) {
-        console.log(error);
-        resetData();
-      }
+      setIsActive(false);
+      setScanData(codes?.[0]?.value);
     },
   });
-
-  function resetData() {
-    setScanData(null);
-    setIsActive(true);
-    setShowScanData(false);
-  }
-
-  const addScanData = data => {
-    try {
-      if (data === null) {
-        showToast({
-          message: 'No data found !!',
-        });
-        resetData();
-        return;
-      }
-      dispatch(addScannerData(data));
-      showToast({
-        message: 'Data scanned successfully !!',
-      });
-      navigation.pop();
-    } catch (error) {
-      console.log(error);
-      resetData();
-      navigation.pop();
-      showToast({
-        message: error?.message,
-        action: 'error',
-      });
-    }
-  };
-
-  const ShowScanDataModal = () => {
-    return (
-      <Modal
-        isOpen={showScanData}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-        alignSelf="center"
-        borderRadius={scale(12)}
-        backgroundColor="white"
-        onClose={() => {
-          setShowScanData(false);
-        }}>
-        <ModalBackdrop onPress={() => {}} />
-        <ModalContent>
-          <ModalHeader>
-            <Heading size="lg">Your scan data</Heading>
-            <ModalCloseButton>
-              <Icon as={CloseIcon} />
-            </ModalCloseButton>
-          </ModalHeader>
-          <ModalBody>
-            <Text>{scanData}</Text>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              variant="outline"
-              size="sm"
-              action="secondary"
-              mr="$3"
-              onPress={() => {
-                resetData();
-              }}>
-              <ButtonText>Scan Again</ButtonText>
-            </Button>
-            <Button
-              size="sm"
-              action="secondary"
-              borderWidth="$0"
-              onPress={() => {
-                addScanData();
-              }}>
-              <ButtonText>Add to list</ButtonText>
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    );
-  };
 
   return (
     <>
       <AppLoader showModal={isLoading} />
-      <ShowScanDataModal />
       {hasPermission && (
         <View style={styles.scannerContainer}>
           <StatusBar barStyle={'light-content'} />

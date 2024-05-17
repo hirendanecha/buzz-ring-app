@@ -6,9 +6,10 @@ import messaging from '@react-native-firebase/messaging';
 import RNNotificationCall from 'react-native-full-screen-notification-incoming-call';
 import io from 'socket.io-client';
 import {store} from './src/redux/store';
+import {env} from './src/config';
 
 function returnNotificationData(remoteMessage) {
-  const data = JSON.parse(remoteMessage.data.body);
+  const data = JSON.parse(remoteMessage?.data?.body);
   const {
     ProfilePicName,
     Username,
@@ -38,15 +39,15 @@ function addRNCallEventListener() {
 
       const state = store.getState();
 
-      const user = state.scanner.data.find(item => {
-        return item.Id === callData.data.notificationToProfileId;
+      const user = state?.scanner?.data.find(item => {
+        return item?.Id === callData?.data?.notificationToProfileId;
       });
 
       const customHeaders = {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       };
 
-      const newSocket = await io.connect('https://dev-api.freedom.buzz', {
+      const newSocket = await io.connect(env.SOCKET_URL, {
         reconnectionDelayMax: 300,
         // reconnection: true,
         randomizationFactor: 0.2,
@@ -71,8 +72,22 @@ function addRNCallEventListener() {
             },
             data => {
               console.log(data, 'pick-up-call');
-              newSocket.disconnect();
-              Linking.openURL(callData.data.link);
+              newSocket.emit(
+                'decline-call',
+                {
+                  notificationToProfileId:
+                    callData?.data?.notificationByProfileId,
+                  roomId: callData?.data?.roomId,
+                  groupId: callData?.data?.groupId,
+                  notificationByProfileId:
+                    callData?.data?.notificationToProfileId,
+                },
+                data => {
+                  console.log(data, 'decline-call');
+                  newSocket.disconnect();
+                },
+              );
+              Linking.openURL(callData?.data?.link);
               RNNotificationCall.hideNotification();
             },
           );
@@ -94,15 +109,15 @@ function addRNCallEventListener() {
 
       const state = store.getState();
 
-      const user = state.scanner.data.find(item => {
-        return item.Id === callData.data.notificationToProfileId;
+      const user = state?.scanner?.data?.find(item => {
+        return item.Id === callData?.data?.notificationToProfileId;
       });
 
       const customHeaders = {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       };
 
-      const newSocket = await io.connect('https://dev-api.freedom.buzz', {
+      const newSocket = await io.connect(env.SOCKET_URL, {
         reconnectionDelayMax: 300,
         // reconnection: true,
         randomizationFactor: 0.2,
@@ -143,15 +158,15 @@ function addRNCallEventListener() {
 const displayIncomingCall = data => {
   try {
     RNNotificationCall.displayNotification(
-      `${data.notificationByProfileId}-${data.notificationToProfileId}`,
-      data.ProfilePicName,
+      `${data?.notificationByProfileId}-${data?.notificationToProfileId}`,
+      data?.ProfilePicName,
       15000,
       {
-        channelId: `${data.notificationByProfileId}-${data.notificationToProfileId}`,
+        channelId: `${data?.notificationByProfileId}-${data?.notificationToProfileId}`,
         channelName: 'Incoming call',
         notificationIcon: 'ic_launcher', //mipmap
-        notificationTitle: data.Username,
-        notificationBody: 'Incoming call • ' + data.domain,
+        notificationTitle: data?.Username,
+        notificationBody: 'Incoming call • ' + data?.domain,
         answerText: 'Answer',
         declineText: 'Decline',
         payload: {data: data},
@@ -171,11 +186,11 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
 
     addRNCallEventListener();
 
-    if (data.actionType == 'VC') {
+    if (data?.actionType == 'VC') {
       displayIncomingCall(data);
     } else {
       RNNotificationCall.declineCall(
-        `${data.notificationByProfileId}-${data.notificationToProfileId}`,
+        `${data?.notificationByProfileId}-${data?.notificationToProfileId}`,
       );
     }
   } catch (error) {
@@ -190,11 +205,11 @@ messaging().onMessage(async remoteMessage => {
 
     addRNCallEventListener();
 
-    if (data.actionType == 'VC') {
+    if (data?.actionType == 'VC') {
       displayIncomingCall(data);
     } else {
       RNNotificationCall.declineCall(
-        `${data.notificationByProfileId}-${data.notificationToProfileId}`,
+        `${data?.notificationByProfileId}-${data?.notificationToProfileId}`,
       );
     }
   } catch (error) {

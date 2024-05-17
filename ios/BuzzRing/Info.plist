@@ -33,6 +33,18 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+		<key>CFBundleURLName</key>
+		<string>com.buzzring.test</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>buzzring</string>
+		</array>
+	</dict>
+	</array>
+	
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
