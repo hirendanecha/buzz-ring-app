@@ -7,7 +7,6 @@ const initialState = {
   success: false,
   token: null,
   message: null,
-  data: {},
   isDeviceRegistered: false,
 };
 

@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
@@ -17,7 +17,7 @@ const App = () => {
       <PersistGate
         loading={<SplashScreen />}
         persistor={persistor}
-        onBeforeLift={() => new Promise(resolve => setTimeout(resolve, 3000))}>
+        onBeforeLift={() => new Promise(resolve => setTimeout(resolve, 2000))}>
         <ThemeApp />
       </PersistGate>
     </Provider>

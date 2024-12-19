@@ -15,6 +15,11 @@ import GlobalString from '../../constants/string';
 import style from './ScannerScreen.styles';
 import AppLoader from '../../components/AppLoader';
 import {ArrowLeftIcon, Icon, useStyled} from '@gluestack-ui/themed';
+import * as ImagePicker from 'react-native-image-picker';
+import RNQRGenerator from 'rn-qr-generator';
+import {Button} from '@gluestack-ui/themed';
+import {ButtonText} from '@gluestack-ui/themed';
+import {moderateScale, verticalScale} from '../../constants/matrics';
 
 export default function ScannerScreen({navigation}) {
   const scanner = useSelector(state => state?.scanner?.data) || [];
@@ -42,6 +47,8 @@ export default function ScannerScreen({navigation}) {
 
   const handleValidateToken = async data => {
     try {
+      console.log(data);
+      console.log(scanner);
       setIsLoading(true);
       // Extract the domain and token
       const domainRegex =
@@ -69,7 +76,10 @@ export default function ScannerScreen({navigation}) {
 
       setIsLoading(false);
       if (response.success) {
-        const isExist = scanner.find(item => item.Id === response.data.Id);
+        let isExist = false;
+        if (Array.isArray(scanner)) {
+          isExist = scanner?.find(item => item?.Id === response?.data?.Id);
+        }
         if (!isExist) {
           await dispatch(addScannerData(response.data));
           gotoHome();
@@ -108,6 +118,55 @@ export default function ScannerScreen({navigation}) {
     },
   });
 
+  const openPhoto = () => {
+    console.log('ImagePicker');
+    ImagePicker.launchImageLibrary({}, response => {
+      try {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          var file = response?.assets?.[0];
+
+          if (file?.uri) {
+            var path = file?.path;
+            if (!path) {
+              path = file?.uri;
+            }
+            console.log(path);
+            // QRreader(path)
+            //   .then(data => {
+            //     console.log(data);
+            //   })
+            //   .catch(err => {
+            //     console.log(err);
+            //   });
+
+            // Detect QR code in image
+            RNQRGenerator.detect({
+              uri: path,
+            })
+              .then(response => {
+                const {values} = response; // Array of detected QR code values. Empty if nothing found.
+                console.log(response);
+                handleValidateToken(values[0]);
+              })
+              .catch(error =>
+                console.log('Cannot detect QR code in image', error),
+              );
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
   return (
     <>
       <AppLoader showModal={isLoading} />
@@ -124,6 +183,17 @@ export default function ScannerScreen({navigation}) {
               style={styles.backIcon}
             />
             <Text style={styles.headerText}>{GlobalString.SCAN_QR_CODE}</Text>
+            {/* <Icon
+              as={AddIcon}
+              color={'white'}
+              onPress={() => {
+                openPhoto();
+              }}
+              style={[
+                styles.backIcon,
+                {justifyContent: 'center', alignItems: 'center'},
+              ]}
+            /> */}
           </View>
 
           <View style={styles.cameraContainer}>
@@ -187,6 +257,38 @@ export default function ScannerScreen({navigation}) {
               // />
               <Text style={styles.noCameraText}>{GlobalString.NO_CAMERA}</Text>
             )}
+            <Button
+              size="md"
+              variant="outline"
+              action="primary"
+              isDisabled={false}
+              onPress={() => {
+                openPhoto();
+              }}
+              style={{
+                position: 'absolute',
+                width: '90%',
+                zIndex: 1000000,
+                alignSelf: 'center',
+                top: '80%',
+                borderColor: device
+                  ? '#fff'
+                  : styled.config.tokens.colors.basePrimary,
+                borderRadius: verticalScale(10),
+              }}
+              isFocusVisible={false}>
+              <ButtonText
+                style={{
+                  color: device
+                    ? '#fff'
+                    : styled.config.tokens.colors.basePrimary,
+                  fontSize: moderateScale(18),
+                  textAlign: 'center',
+                }}>
+                Upload From Gallery
+              </ButtonText>
+              {/* <ButtonIcon as={AddIcon} /> */}
+            </Button>
           </View>
         </View>
       )}

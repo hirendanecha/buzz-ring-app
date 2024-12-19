@@ -1,4 +1,4 @@
-package com.buzzring
+package com.buzzring.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

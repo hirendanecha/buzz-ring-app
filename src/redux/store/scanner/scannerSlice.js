@@ -16,7 +16,7 @@ const scannerSlice = createSlice({
   reducers: {
     addScannerData: (state, action) => {
       console.log(action.payload);
-      console.log(state);
+      console.log(state, 'state add scan');
       state.data = [...state.data, action.payload];
     },
     removeUser: (state, action) => {

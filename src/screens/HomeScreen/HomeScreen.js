@@ -246,7 +246,7 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <>
-      <AppLoader showModal={loading} />
+      {/* <AppLoader showModal={loading} /> */}
       <OpenSettingModal />
       <ShowDeleteModal isShow={isShowDeleteModal} />
       <View style={styles.mainContainer}>
